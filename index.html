@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Wheel of Time CYOA: Third Age - Post-Cleansing</title>
-<style>
+    <head>
+        <meta charset="utf-8"/>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <title>Wheel of Time CYOA: Third Age - Post-Cleansing</title>
+        <style>
         :root {
         /* Ajah colors and theme colors */
         --blue-ajah: #143b6b;
@@ -22,21 +21,15 @@
         --yellow-ajah-light: #e6b325;
         --brown-ajah: #6b4226;
         --brown-ajah-light: #a06941;
-        
-        /* Main theme colors */
         --primary-color: #8b0000; /* Red Ajah as primary */
         --secondary-color: #d4af37; /* Gold/yellow color for accents */
         --accent-color: #2e0854; /* Deep purple for the Pattern */
-        
-        /* Dark theme elements */
         --dark-bg: #121212;
         --dark-section: #1e1e1e;
         --dark-choice: #2c2c2c;
         --text-color: #e0e0e0;
         --heading-color: #ffffff;
         --muted-text: #bbbbbb;
-        
-        /* Other UI elements */
         --border-radius: 8px;
         --box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         --glow: 0 0 8px rgba(212, 175, 55, 0.4);
@@ -59,13 +52,11 @@
         max-width: 1000px;
         margin: 0 auto;
         }
-        
         .cyoa-container {
         display: flex;
         flex-direction: column;
         gap: 20px;
         }
-        
         .header {
         background-color: var(--primary-color);
         background-image: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
@@ -76,7 +67,6 @@
         box-shadow: var(--box-shadow);
         border: 1px solid rgba(212, 175, 55, 0.3);
         }
-        
         .header h1 {
         font-size: 2.5rem;
         margin-bottom: 10px;
@@ -85,47 +75,67 @@
         text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         .tab-bar {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin: 30px 0 10px;
-            gap: 8px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 30px 0 10px;
+        gap: 8px;
         }
-
         .tab-button {
-            padding: 6px 14px;
-            font-size: 14px;
-            border-radius: 20px;
-            border: none;
-            flex-grow: 1;
-            text-align: center;
-            background-color: var(--secondary-color); /* fallback color */
-            color: black; /* default text color is black */
-            transition: all 0.3s ease;
+        padding: 6px 14px;
+        font-size: 14px;
+        border-radius: 20px;
+        border: none;
+        flex-grow: 1;
+        text-align: center;
+        background-color: var(--secondary-color); /* fallback color */
+        color: black; /* default text color is black */
+        transition: all 0.3s ease;
         }
-
         /* On hover, invert colors for contrast */
         .tab-button:hover {
-            color: white;
-            filter: brightness(1.2);
+        color: white;
+        filter: brightness(1.2);
         }
-
         /* Active tab stays highlighted */
         .tab-button.active {
-            color: white;
-            font-weight: bold;
-            filter: brightness(1.2);
+        color: white;
+        font-weight: bold;
+        filter: brightness(1.2);
+        }
+        /* Add hover feedback for selected items */
+        .choice.selected:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+        }
+        /* Add visual indicator for free vs paid affinities */
+        .choice[data-using-free="true"] .choice-points::after {
+        content: " (Free)";
+        color: #52a676; /* Green to indicate free */
+        }
+        /* Add better loading state */
+        body.loading .cyoa-container {
+        opacity: 0.7;
+        pointer-events: none;
+        }
+        /* Add a points alert animation when points go negative */
+        @keyframes pointsAlert {
+        0% { transform: scale(1); color: var(--text-color); }
+        50% { transform: scale(1.1); color: var(--red-ajah); }
+        100% { transform: scale(1); color: var(--text-color); }
+        }
+        .points-alert {
+        animation: pointsAlert 0.5s ease;
         }
         .tab-button:hover {
-            color: white;
-            background-image: linear-gradient(90deg, #d4af37, var(--secondary-color), #d4af37);
-            background-size: 200%;
-            animation: shimmer 2s infinite linear;
+        color: white;
+        background-image: linear-gradient(90deg, #d4af37, var(--secondary-color), #d4af37);
+        background-size: 200%;
+        animation: shimmer 2s infinite linear;
         }
-
         @keyframes shimmer {
-            0% { background-position: 0% }
-            100% { background-position: 200% }
+        0% { background-position: 0% }
+        100% { background-position: 200% }
         }
         /* Choice Container Borders: Wheel of Time "Thread" Look */
         .choice {
@@ -147,14 +157,12 @@
         border: 2px solid var(--secondary-color);
         box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
         }
-        
         .separator {
         height: 3px;
         background: var(--pattern-accent);
         margin: 20px 0;
         box-shadow: var(--glow);
         }
-        
         .section {
         background-color: var(--dark-section);
         border-radius: var(--border-radius);
@@ -163,7 +171,6 @@
         margin-bottom: 20px;
         border: 1px solid rgba(255,255,255,0.1);
         }
-        
         .section-header {
         display: flex;
         align-items: center;
@@ -171,32 +178,27 @@
         padding-bottom: 10px;
         border-bottom: 2px solid var(--secondary-color);
         }
-        
         .section-icon {
         font-size: 1.8rem;
         margin-right: 15px;
         color: var(--secondary-color);
         text-shadow: var(--glow);
         }
-        
         .section-title {
         font-size: 1.8rem;
         color: var(--heading-color);
         text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
-        
         .section-description {
         margin-bottom: 20px;
         font-style: italic;
         color: var(--muted-text);
         }
-        
         .choice-container {
         display: flex;
         flex-direction: column;
         gap: 15px;
         }
-        
         .choice {
         background-color: var(--dark-choice);
         border: 1px solid rgba(255,255,255,0.15);
@@ -205,26 +207,22 @@
         cursor: pointer;
         transition: all 0.3s ease;
         }
-        
         .choice:hover {
         transform: translateY(-2px);
         box-shadow: var(--box-shadow), var(--glow);
         border-color: var(--secondary-color);
         }
-        
         .choice-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 10px;
         }
-        
         .choice-title {
         font-weight: bold;
         font-size: 1.2rem;
         color: var(--secondary-color);
         }
-        
         .choice-points {
         background-color: var(--secondary-color);
         color: var(--dark-bg);
@@ -233,32 +231,26 @@
         font-size: 0.9rem;
         font-weight: bold;
         }
-        
         .choice-description {
         padding-left: 10px;
         border-left: 1px solid var(--secondary-color);
         }
-        
         .choice-description ul {
         margin-left: 20px;
         margin-top: 8px;
         }
-        
         .advantages-disadvantages {
         display: flex;
         margin-top: 12px;
         font-size: 0.95rem;
         gap: 15px;
         }
-        
         .advantages, .disadvantages {
         flex: 1;
         }
-        
         .advantages h4, .disadvantages h4 {
         margin-bottom: 5px;
         }
-        
         .advantages h4 {
         color: var(--green-ajah-light);
         }
@@ -289,898 +281,905 @@
         margin-bottom: 20px;
         font-weight: bold;
         }
-        
         .selected {
         border: 2px solid var(--secondary-color);
         box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
         background-color: rgba(212, 175, 55, 0.15); /* Golden glow fill */
         }
-        
         /* Ajah-colored sections */
         .blue-section {
         border-top: 4px solid var(--blue-ajah);
         }
-        
         .green-section {
         border-top: 4px solid var(--green-ajah);
         }
-        
         .red-section {
         border-top: 4px solid var(--red-ajah);
         }
-        
         .white-section {
         border-top: 4px solid var(--white-ajah);
         }
-        
         .gray-section {
         border-top: 4px solid var(--gray-ajah);
         }
-        
         .yellow-section {
         border-top: 4px solid var(--yellow-ajah);
         }
-        
         .brown-section {
         border-top: 4px solid var(--brown-ajah);
         }
-        
         /* Mobile responsive */
         @media (max-width: 768px) {
         .advantages-disadvantages {
         flex-direction: column;
         }
-        
         .section {
         padding: 15px;
         }
-        
         .header h1 {
         font-size: 1.8rem;
         }
-        
         .section-title {
         font-size: 1.5rem;
         }
         }
-        
-.black-section {
-    background-color: #000000;
-    border-top: 4px solid #ffffff;
-}
-</style>
-</head>
-<body>
-<div class="cyoa-container">
-<div class="points-tracker">
-<h3>Points Remaining: <span id="points-display">0</span></h3>
-</div>
-<div class="header">
-<h1>Wheel of Time CYOA: Third Age - Post-Cleansing</h1>
-<p>Journey through the world of Robert Jordan's epic fantasy as a channeler in a time of great turmoil</p>
-</div>
-<div class="section">
-<div class="section-header">
-<span class="section-icon">✨</span>
-<h2 class="section-title">World Notes</h2>
-</div>
-<div class="section-content">
-<p><em>The Wheel turns, and Ages come and pass, leaving memories that become legend. Now, at the end of the Third Age, the Pattern stirs violently. On <strong>November 11, 1000 NE</strong>, at the hidden battlefield of Shadar Logoth, the taint was cleansed from Saidin. For the first time in thousands of years, male channelers can touch the One Power without inevitable madness.</em></p>
-<br/>
-<p><em>Yet the world is about to enter the darkest period of the Third Age. Kingdoms fracture. The Seanchan tighten their grip across the western lands. The White Tower struggles to regain its authority. The Black Tower rises, a new power among the ruins of the old.</em></p>
-<br/>
-<p><em>Of every thousand born, only about <strong>1%</strong> possess the ability to channel. Of these, perhaps one in <strong>10,000</strong> is strong enough to be noticed, trained, and feared.</em></p>
-<br/>
-<p><em>You are one of these rare souls — born with an above-average strength in the Power, destined to make your mark upon an Age trembling on the edge of catastrophe.</em></p>
-</div>
-</div>
-<div class="tab-bar">
-<button class="tab-button" onclick="showTab('tab1')" style="background-color: var(--red-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Difficulty</button>
-<button class="tab-button" onclick="showTab('tab2')" style="background-color: var(--blue-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Starting Place</button>
-<button class="tab-button" onclick="showTab('tab3')" style="background-color: var(--green-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Training</button>
-<button class="tab-button" onclick="showTab('tab4')" style="background-color: var(--yellow-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Affinities</button>
-<button class="tab-button" onclick="showTab('tab5')" style="background-color: var(--red-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Special Spells</button>
-<button class="tab-button" onclick="showTab('tab6')" style="background-color: var(--yellow-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Items/Abilities</button>
-<button class="tab-button" onclick="showTab('tab7')" style="background-color: var(--green-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Warders</button>
-<button class="tab-button" onclick="showTab('tab8')" style="background-color: var(--blue-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Oaths</button>
-<button class="tab-button" onclick="showTab('tab10')" style="background-color: var(--red-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Outro</button></div>
-<div class="tab-content" id="tab1">
-<!-- Section 0 Difficulty here -->
-<div class="section red-section">
-<div class="section-header">
-<span class="section-icon">0️⃣</span>
-<h2 class="section-title">Difficulty / Role in the Pattern</h2>
-</div>
-<div class="section-description">
+        .black-section {
+        background-color: #000000;
+        border-top: 4px solid #ffffff;
+        }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="cyoa-container">
+            <div class="points-tracker">
+                <h3>Points Remaining: <span id="points-display">0</span></h3>
+            </div>
+            <div class="header">
+                <h1>Wheel of Time CYOA: Third Age</h1>
+                <p>Journey through the world of Robert Jordan's epic fantasy as a channeler in a time of great turmoil</p>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-icon">✨</span>
+                    <h2 class="section-title">World Notes</h2>
+                </div>
+                <div class="section-content">
+                    <p><em>The Wheel turns, and Ages come and pass, leaving memories that become legend. Now, at the end of the Third Age, the Pattern stirs violently. On <strong>November 11, 1000 NE</strong>, at the hidden battlefield of Shadar Logoth, the taint was cleansed from Saidin. For the first time in thousands of years, male channelers can touch the One Power without inevitable madness.</em></p>
+                    <br/>
+                    <p><em>Yet the world is about to enter the darkest period of the Third Age. Kingdoms fracture. The Seanchan tighten their grip across the western lands. The White Tower struggles to regain its authority. The Black Tower rises, a new power among the ruins of the old.</em></p>
+                    <br/>
+                    <p><em>Of every thousand born, only about <strong>1%</strong> possess the ability to channel. Of these, perhaps one in <strong>10,000</strong> is strong enough to be noticed, trained, and feared.</em></p>
+                    <br/>
+                    <p><em>You are one of these rare souls — born with an above-average strength in the Power, destined to make your mark upon an Age trembling on the edge of catastrophe.</em></p>
+                </div>
+            </div>
+            <div class="tab-bar">
+                <button class="tab-button" onclick="showTab('tab1')" style="background-color: var(--red-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Difficulty</button>
+                <button class="tab-button" onclick="showTab('tab2')" style="background-color: var(--blue-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Starting Place</button>
+                <button class="tab-button" onclick="showTab('tab3')" style="background-color: var(--green-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Training</button>
+                <button class="tab-button" onclick="showTab('tab4')" style="background-color: var(--yellow-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Affinities</button>
+                <button class="tab-button" onclick="showTab('tab5')" style="background-color: var(--red-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Special Spells</button>
+                <button class="tab-button" onclick="showTab('tab6')" style="background-color: var(--yellow-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Items/Abilities</button>
+                <button class="tab-button" onclick="showTab('tab7')" style="background-color: var(--green-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Warders</button>
+                <button class="tab-button" onclick="showTab('tab8')" style="background-color: var(--blue-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Oaths</button>
+            <button class="tab-button" onclick="showTab('tab10')" style="background-color: var(--red-ajah); color: white; padding: 6px 14px; font-size: 14px; border-radius: 20px; border: none; flex-grow: 1; text-align: center;">Outro</button></div>
+            <div class="tab-content" id="tab1">
+                <!-- Section 0 Difficulty here -->
+                <div class="section red-section">
+                    <div class="section-header">
+                        <span class="section-icon">0️⃣</span>
+                        <h2 class="section-title">Difficulty / Role in the Pattern</h2>
+                    </div>
+                    <div class="section-description">
                         Your connection to the Pattern determines the dangers you will face.
                     </div>
-<div class="choice-container">
-<div class="choice" data-points="25" onclick="selectChoice(this, 'role')">
-<div class="choice-header">
-<span class="choice-title">Involved in the Pattern</span>
-<span class="choice-points">+25 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Fate actively weaves around you. Heroes, villains, and Forsaken will cross your path.</li>
-<li>Major threats and opportunities will seek you out.</li>
-<li>Expect to be drawn into great battles, ancient plots, and world-changing events.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="15" onclick="selectChoice(this, 'role')">
-<div class="choice-header">
-<span class="choice-title">Ignored by the Pattern</span>
-<span class="choice-points">+15 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>You live quieter, outside the direct pull of prophecy.</li>
-<li>Most dangers must be sought out deliberately.</li>
-<li>Greater safety, but lesser natural chances at fame, fortune, or catastrophe.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="tab-content" id="tab2" style="display:none;">
-<div class="section blue-section">
-<div class="section-header">
-<span class="section-icon">1️⃣</span>
-<h2 class="section-title">Starting Place</h2>
-</div>
-<div class="section-description">
+                    <div class="choice-container">
+                        <div class="choice" data-points="25" onclick="selectChoice(this, 'role')">
+                            <div class="choice-header">
+                                <span class="choice-title">Involved in the Pattern</span>
+                                <span class="choice-points">+25 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Fate actively weaves around you. Heroes, villains, and Forsaken will cross your path.</li>
+                                    <li>Major threats and opportunities will seek you out.</li>
+                                    <li>Expect to be drawn into great battles, ancient plots, and world-changing events.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="15" onclick="selectChoice(this, 'role')">
+                            <div class="choice-header">
+                                <span class="choice-title">Ignored by the Pattern</span>
+                                <span class="choice-points">+15 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>You live quieter, outside the direct pull of prophecy.</li>
+                                    <li>Most dangers must be sought out deliberately.</li>
+                                    <li>Greater safety, but lesser natural chances at fame, fortune, or catastrophe.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="tab2" style="display:none;">
+                <div class="section blue-section">
+                    <div class="section-header">
+                        <span class="section-icon">1️⃣</span>
+                        <h2 class="section-title">Starting Place</h2>
+                    </div>
+                    <div class="section-description">
                         The lands of the Westlands offer many beginnings. Choose your birthplace carefully; it shapes your early skills, alliances, and dangers.
                     </div>
-<div class="choice-container">
-<div class="choice" data-points="6" onclick="selectChoice(this, 'place')">
-<div class="choice-header">
-<span class="choice-title">🌊 Seanchan Empire</span>
-<span class="choice-points">+6 points</span>
-</div>
-<div class="choice-description">
-<p>You were raised among the Seanchan conquerors.</p>
-<p>You are either:</p>
-<ul>
-<li>A sul'dam whose talents awakened.</li>
-<li>An escaped damane hiding your identity.</li>
-</ul>
-<div class="advantages-disadvantages">
-<div class="advantages">
-<h4>Advantages:</h4>
-<p>Rare access to Seanchan military knowledge, Traveling secrets, and exotic training methods.</p>
-</div>
-<div class="disadvantages">
-<h4>Disadvantages:</h4>
-<p>Hunted by seekers and slave-catchers if discovered.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'place')">
-<div class="choice-header">
-<span class="choice-title">🏰 Andoran Borderlands</span>
-<span class="choice-points">+0 points</span>
-</div>
-<div class="choice-description">
-<p>Raised near the powerful kingdom of Andor, close to Tar Valon's sphere of influence.</p>
-<p>Familiar with noble politics, minor wars, and White Tower presence.</p>
-<div class="advantages-disadvantages">
-<div class="advantages">
-<h4>Advantages:</h4>
-<p>Easier access to formal training, patronage, and safety.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'place')">
-<div class="choice-header">
-<span class="choice-title">🌊 Illian</span>
-<span class="choice-points">+0 points</span>
-</div>
-<div class="choice-description">
-<p>Born in a bustling trade city of sea, ships, and coin.</p>
-<p>Loose channeling oversight allows freedom — and danger.</p>
-<div class="advantages-disadvantages">
-<div class="advantages">
-<h4>Advantages:</h4>
-<p>Access to rare goods, diverse fighting styles, and mercenary networks.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'place')">
-<div class="choice-header">
-<span class="choice-title">♟️ Cairhien</span>
-<span class="choice-points">+0 points</span>
-</div>
-<div class="choice-description">
-<p>Raised in the heart of Daes Dae'mar — the Great Game of noble intrigue.</p>
-<p>You grew up surrounded by plots within plots.</p>
-<div class="advantages-disadvantages">
-<div class="advantages">
-<h4>Advantages:</h4>
-<p>Naturally gifted at politics, espionage, and maneuvering between powers.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="note">
-<p><em>No White Tower or Black Tower starting option: you must first find your path to them through the Pattern.</em></p>
-</div>
-</div>
-</div>
-<div class="tab-content" id="tab3" style="display:none;">
-<div class="section green-section">
-<div class="section-header">
-<span class="section-icon">2️⃣</span>
-<h2 class="section-title">Starting Training Level</h2>
-</div>
-<div class="section-description">
+                    <div class="choice-container">
+                        <div class="choice" data-points="6" onclick="selectChoice(this, 'place')">
+                            <div class="choice-header">
+                                <span class="choice-title">🌊 Seanchan Empire</span>
+                                <span class="choice-points">+6 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <p>You were raised among the Seanchan conquerors.</p>
+                                <p>You are either:</p>
+                                <ul>
+                                    <li>A sul'dam whose talents awakened.</li>
+                                    <li>An escaped damane hiding your identity.</li>
+                                </ul>
+                                <div class="advantages-disadvantages">
+                                    <div class="advantages">
+                                        <h4>Advantages:</h4>
+                                        <p>Rare access to Seanchan military knowledge, Traveling secrets, and exotic training methods.</p>
+                                    </div>
+                                    <div class="disadvantages">
+                                        <h4>Disadvantages:</h4>
+                                        <p>Hunted by seekers and slave-catchers if discovered.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectChoice(this, 'place')">
+                            <div class="choice-header">
+                                <span class="choice-title">🏰 Andoran Borderlands</span>
+                                <span class="choice-points">+0 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <p>Raised near the powerful kingdom of Andor, close to Tar Valon's sphere of influence.</p>
+                                <p>Familiar with noble politics, minor wars, and White Tower presence.</p>
+                                <div class="advantages-disadvantages">
+                                    <div class="advantages">
+                                        <h4>Advantages:</h4>
+                                        <p>Easier access to formal training, patronage, and safety.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectChoice(this, 'place')">
+                            <div class="choice-header">
+                                <span class="choice-title">🌊 Illian</span>
+                                <span class="choice-points">+0 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <p>Born in a bustling trade city of sea, ships, and coin.</p>
+                                <p>Loose channeling oversight allows freedom — and danger.</p>
+                                <div class="advantages-disadvantages">
+                                    <div class="advantages">
+                                        <h4>Advantages:</h4>
+                                        <p>Access to rare goods, diverse fighting styles, and mercenary networks.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectChoice(this, 'place')">
+                            <div class="choice-header">
+                                <span class="choice-title">♟️ Cairhien</span>
+                                <span class="choice-points">+0 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <p>Raised in the heart of Daes Dae'mar — the Great Game of noble intrigue.</p>
+                                <p>You grew up surrounded by plots within plots.</p>
+                                <div class="advantages-disadvantages">
+                                    <div class="advantages">
+                                        <h4>Advantages:</h4>
+                                        <p>Naturally gifted at politics, espionage, and maneuvering between powers.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note">
+                        <p><em>No White Tower or Black Tower starting option: you must first find your path to them through the Pattern.</em></p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="tab3" style="display:none;">
+                <div class="section green-section">
+                    <div class="section-header">
+                        <span class="section-icon">2️⃣</span>
+                        <h2 class="section-title">Starting Training Level</h2>
+                    </div>
+                    <div class="section-description">
                         Your education will dramatically affect your early strength.
                     </div>
-<div class="choice-container">
-<div class="choice" data-points="5" onclick="selectChoice(this, 'training')">
-<div class="choice-header">
-<span class="choice-title">🔥 Untrained</span>
-<span class="choice-points">+5 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>You have no formal instruction. If you pick Wanderer, you have no channeling knowledge at all.</li>
-<li>Your instincts guide your channeling.</li>
-</ul>
-<div class="advantages-disadvantages">
-<div class="advantages">
-<h4>Advantages:</h4>
-<p>Full creative freedom. Learn lost or rare weaves more easily.</p>
-</div>
-<div class="disadvantages">
-<h4>Disadvantages:</h4>
-<p>Poor control, slower spellcasting without focus, and risks of burning out.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'training')">
-<div class="choice-header">
-<span class="choice-title">📚 Graduated from Tower Training</span>
-<span class="choice-points">+0 points</span>
-</div>
-<div class="choice-description">
-<p>You have completed core training at one of the major schools:</p>
-<ul>
-<li><strong>White Tower</strong> (Aes Sedai)</li>
-<li><strong>Black Tower</strong> (Asha'man)</li>
-</ul>
-<p>You have basic mastery over:</p>
-<ul>
-<li>Standard battle weaves.</li>
-<li>Basic Healing techniques.</li>
-<li>Opening and closing Traveling gateways.</li>
-<li>Setting simple wards.</li>
-</ul>
-<div class="advantages-disadvantages">
-<div class="advantages">
-<h4>Advantages:</h4>
-<p>Highly stable spellcasting, formal recognition, easier access to allies and resources.</p>
-</div>
-<div class="disadvantages">
-<h4>Disadvantages:</h4>
-<p>Political entanglements; enemies and rivals may already know your name.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="choice" data-points="3" onclick="selectChoice(this, 'training')">
-<div class="choice-header">
-<span class="choice-title">🚶 Wanderer</span>
-<span class="choice-points">+3 points</span>
-</div>
-<div class="choice-description">
-<p>You grew up outside any major channeler structure. This might include:</p>
-<ul>
-<li><strong>Wisdom</strong> from a remote village.</li>
-<li><strong>Windfinder</strong> of the Sea Folk.</li>
-<li><strong>Tairen city channeler</strong> hiding in the slums.</li>
-<li><strong>Two Rivers Talent</strong> with deep but wild roots.</li>
-</ul>
-<div class="advantages-disadvantages">
-<div class="advantages">
-<h4>Advantages:</h4>
-<p>Greater creativity and flexibility. Closer bond to non-channeler cultures.</p>
-</div>
-<div class="disadvantages">
-<h4>Disadvantages:</h4>
-<p>No early formal training; must survive first trials by instinct.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="tab-content" id="tab4" style="display:none;">
-<div class="section yellow-section">
-<div class="section-header">
-<span class="section-icon">3️⃣</span>
-<h2 class="section-title">Affinities</h2>
-</div>
-<div class="section-description">
+                    <div class="choice-container">
+                        <div class="choice" data-points="5" onclick="selectChoice(this, 'training')">
+                            <div class="choice-header">
+                                <span class="choice-title">🔥 Untrained</span>
+                                <span class="choice-points">+5 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>You have no formal instruction. If you pick Wanderer, you have no channeling knowledge at all.</li>
+                                    <li>Your instincts guide your channeling.</li>
+                                </ul>
+                                <div class="advantages-disadvantages">
+                                    <div class="advantages">
+                                        <h4>Advantages:</h4>
+                                        <p>Full creative freedom. Learn lost or rare weaves more easily.</p>
+                                    </div>
+                                    <div class="disadvantages">
+                                        <h4>Disadvantages:</h4>
+                                        <p>Poor control, slower spellcasting without focus, and risks of burning out.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectChoice(this, 'training')">
+                            <div class="choice-header">
+                                <span class="choice-title">📚 Graduated from Tower Training</span>
+                                <span class="choice-points">+0 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <p>You have completed core training at one of the major schools:</p>
+                                <ul>
+                                    <li><strong>White Tower</strong> (Aes Sedai)</li>
+                                    <li><strong>Black Tower</strong> (Asha'man)</li>
+                                </ul>
+                                <p>You have basic mastery over:</p>
+                                <ul>
+                                    <li>Standard battle weaves.</li>
+                                    <li>Basic Healing techniques.</li>
+                                    <li>Opening and closing Traveling gateways.</li>
+                                    <li>Setting simple wards.</li>
+                                </ul>
+                                <div class="advantages-disadvantages">
+                                    <div class="advantages">
+                                        <h4>Advantages:</h4>
+                                        <p>Highly stable spellcasting, formal recognition, easier access to allies and resources.</p>
+                                    </div>
+                                    <div class="disadvantages">
+                                        <h4>Disadvantages:</h4>
+                                        <p>Political entanglements; enemies and rivals may already know your name.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="3" onclick="selectChoice(this, 'training')">
+                            <div class="choice-header">
+                                <span class="choice-title">🚶 Wanderer</span>
+                                <span class="choice-points">+3 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <p>You grew up outside any major channeler structure. This might include:</p>
+                                <ul>
+                                    <li><strong>Wisdom</strong> from a remote village.</li>
+                                    <li><strong>Windfinder</strong> of the Sea Folk.</li>
+                                    <li><strong>Tairen city channeler</strong> hiding in the slums.</li>
+                                    <li><strong>Two Rivers Talent</strong> with deep but wild roots.</li>
+                                </ul>
+                                <div class="advantages-disadvantages">
+                                    <div class="advantages">
+                                        <h4>Advantages:</h4>
+                                        <p>Greater creativity and flexibility. Closer bond to non-channeler cultures.</p>
+                                    </div>
+                                    <div class="disadvantages">
+                                        <h4>Disadvantages:</h4>
+                                        <p>No early formal training; must survive first trials by instinct.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="tab4" style="display:none;">
+                <div class="section yellow-section">
+                    <div class="section-header">
+                        <span class="section-icon">3️⃣</span>
+                        <h2 class="section-title">Affinities</h2>
+                    </div>
+                    <div class="section-description">
                         You are naturally gifted in certain types of channeling.
                         Affinities make learning related weaves easier, faster, and more powerful.
                     </div>
-<div class="note">
-<p><em>Pick up to 1 Affinity for free. Each additional Affinity costs <strong>2 points</strong>.</em></p>
-</div>
-<div class="choice-container">
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity')">
-<div class="choice-header">
-<span class="choice-title">💙 Healing</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Natural ability to repair injuries, cure disease, and stabilize critical wounds.</li>
-<li>Healing is faster, more complete, and costs less strength compared to ordinary channelers.</li>
-<li>Unlocks specialized Healing weaves at lower skill thresholds.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
-<div class="choice-header">
-<span class="choice-title">⚔️ Combat Weaving</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Expertise in destruction, battle wards, and offensive weaves.</li>
-<li>Stronger fire, earth, and air-based attacks.</li>
-<li>Easier combination of multiple weaves in live combat.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
-<div class="choice-header">
-<span class="choice-title">🌀 Traveling and Skimming</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Faster mastery over opening gateways and traveling between locations.</li>
-<li>Can open larger, more stable portals with less effort.</li>
-<li>Minor chance to invent rare movement techniques.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
-<div class="choice-header">
-<span class="choice-title">🛡️ Warding and Detection</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Craft powerful protective barriers, alarm wards, and anti-scrying fields.</li>
-<li>Easier time detecting hidden presences, masked channelers, or dream-walkers.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
-<div class="choice-header">
-<span class="choice-title">🔗 Binding and Stilling</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Strength in shield weaves (blocking another's ability to channel) and immobilization.</li>
-<li>Easier time cutting someone off from the One Power if sufficiently strong.</li>
-<li>Boosts defensive techniques dramatically.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
-<div class="choice-header">
-<span class="choice-title">🌩️ Weather Working</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Influence local weather patterns: rain, storms, calming winds.</li>
-<li>Can resist minor environmental hazards (cold, heat, storms) with ambient weaves.</li>
-<li>With training, capable of major-scale weather manipulation in circles.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
-<div class="choice-header">
-<span class="choice-title">👁️ Illusion and Masking</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Talent in disguise, concealment, and appearance-shifting.</li>
-<li>Stronger versions of Mirror of Mists, masking gender, hiding strength.</li>
-<li>Passive bonus against detection by Wards or the keen senses of Wolfbrothers.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
-<div class="choice-header">
-<span class="choice-title">💤 Dreamwalking</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Easier and safer entry into Tel'aran'rhiod, the World of Dreams.</li>
-<li>Ability to resist some dream manipulation or nightmares.</li>
-<li>Unlocks rare dream-weaves and defense against Dreamspike traps.</li>
-</ul>
-</div>
-</div>
-<div class="choice" data-points="0" data-using-free="false" onclick="selectAffinityChoice(this, 'affinity')">
-<div class="choice-header">
-<span class="choice-title">🔮 Ter'angreal Creation and Use</span>
-<span class="choice-points">Free/-2 points</span>
-</div>
-<div class="choice-description">
-<ul>
-<li>Can instinctively activate, decipher, or cautiously test ter'angreal devices.</li>
-<li>Minor talent for constructing new minor ter'angreal given time and resources.</li>
-<li>Lower risk when experimenting with dangerous artifacts.</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="note">
-<p><em>Affinity grants you easier growth in your chosen path — but specializing too narrowly leaves weaknesses.</em></p>
-</div>
-</div>
-</div>
-<div class="tab-content" id="tab5" style="display:none;">
-<div class="section red-section">
-<div class="section-header">
-<span class="section-icon">4️⃣</span>
-<h2 class="section-title">Special Spells</h2>
-</div>
-<div class="section-description">
+                    <div class="note">
+                        <p><em>Pick up to 1 Affinity for free. Each additional Affinity costs <strong>2 points</strong>.</em></p>
+                    </div>
+                    <div class="choice-container">
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity')">
+                            <div class="choice-header">
+                                <span class="choice-title">💙 Healing</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Natural ability to repair injuries, cure disease, and stabilize critical wounds.</li>
+                                    <li>Healing is faster, more complete, and costs less strength compared to ordinary channelers.</li>
+                                    <li>Unlocks specialized Healing weaves at lower skill thresholds.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
+                            <div class="choice-header">
+                                <span class="choice-title">⚔️ Combat Weaving</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Expertise in destruction, battle wards, and offensive weaves.</li>
+                                    <li>Stronger fire, earth, and air-based attacks.</li>
+                                    <li>Easier combination of multiple weaves in live combat.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
+                            <div class="choice-header">
+                                <span class="choice-title">🌀 Traveling and Skimming</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Faster mastery over opening gateways and traveling between locations.</li>
+                                    <li>Can open larger, more stable portals with less effort.</li>
+                                    <li>Minor chance to invent rare movement techniques.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
+                            <div class="choice-header">
+                                <span class="choice-title">🛡️ Warding and Detection</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Craft powerful protective barriers, alarm wards, and anti-scrying fields.</li>
+                                    <li>Easier time detecting hidden presences, masked channelers, or dream-walkers.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
+                            <div class="choice-header">
+                                <span class="choice-title">🔗 Binding and Stilling</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Strength in shield weaves (blocking another's ability to channel) and immobilization.</li>
+                                    <li>Easier time cutting someone off from the One Power if sufficiently strong.</li>
+                                    <li>Boosts defensive techniques dramatically.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
+                            <div class="choice-header">
+                                <span class="choice-title">🌩️ Weather Working</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Influence local weather patterns: rain, storms, calming winds.</li>
+                                    <li>Can resist minor environmental hazards (cold, heat, storms) with ambient weaves.</li>
+                                    <li>With training, capable of major-scale weather manipulation in circles.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
+                            <div class="choice-header">
+                                <span class="choice-title">👁️ Illusion and Masking</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Talent in disguise, concealment, and appearance-shifting.</li>
+                                    <li>Stronger versions of Mirror of Mists, masking gender, hiding strength.</li>
+                                    <li>Passive bonus against detection by Wards or the keen senses of Wolfbrothers.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" onclick="selectAffinityChoice(this, 'affinity1')">
+                            <div class="choice-header">
+                                <span class="choice-title">💤 Dreamwalking</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Easier and safer entry into Tel'aran'rhiod, the World of Dreams.</li>
+                                    <li>Ability to resist some dream manipulation or nightmares.</li>
+                                    <li>Unlocks rare dream-weaves and defense against Dreamspike traps.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="choice" data-points="0" data-using-free="false" onclick="selectAffinityChoice(this, 'affinity')">
+                            <div class="choice-header">
+                                <span class="choice-title">🔮 Ter'angreal Creation and Use</span>
+                                <span class="choice-points">Free/-2 points</span>
+                            </div>
+                            <div class="choice-description">
+                                <ul>
+                                    <li>Can instinctively activate, decipher, or cautiously test ter'angreal devices.</li>
+                                    <li>Minor talent for constructing new minor ter'angreal given time and resources.</li>
+                                    <li>Lower risk when experimenting with dangerous artifacts.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note">
+                        <p><em>Affinity grants you easier growth in your chosen path — but specializing too narrowly leaves weaknesses.</em></p>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="tab5" style="display:none;">
+                <div class="section red-section">
+                    <div class="section-header">
+                        <span class="section-icon">4️⃣</span>
+                        <h2 class="section-title">Special Spells</h2>
+                    </div>
+                    <div class="section-description">
                         Special spells are elite signature weaves within broader Affinities. They represent major narrative and mechanical advantages.
                     </div>
-<div class="note">
-<ul>
-<li>Cast ~2x faster than normal versions.</li>
-<li>Stronger effect (damage, healing, size, potency).</li>
-<li>Resistance against disruption.</li>
-<li>Access to rare or secret weaves otherwise locked.</li>
-</ul>
-<p><em>You may purchase as many Special Spells as points allow.</em></p>
-</div>
-<div class="choice-container">
-<div class="choice" data-points="-4" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🔥 Firestorm</span>
-<span class="choice-points">-4 points</span>
-</div>
-<div class="choice-description">
+                    <div class="note">
+                        <ul>
+                            <li>Cast ~2x faster than normal versions.</li>
+                            <li>Stronger effect (damage, healing, size, potency).</li>
+                            <li>Resistance against disruption.</li>
+                            <li>Access to rare or secret weaves otherwise locked.</li>
+                        </ul>
+                        <p><em>You may purchase as many Special Spells as points allow.</em></p>
+                    </div>
+                    <div class="choice-container">
+                        <div class="choice" data-points="-4" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🔥 Firestorm</span>
+                                <span class="choice-points">-4 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Unleash a localized inferno, engulfing a battlefield in fire and air. Devastates unprepared foes.
                             </div>
-</div>
-<div class="choice" data-points="-5" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">💖 Sever Healing</span>
-<span class="choice-points">-5 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-5" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">💖 Sever Healing</span>
+                                <span class="choice-points">-5 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Heal someone who has been cut off from the One Power. Rare, difficult, and life-altering.
                             </div>
-</div>
-<div class="choice" data-points="-5" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🌌 Rapid Gateway</span>
-<span class="choice-points">-5 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-5" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🌌 Rapid Gateway</span>
+                                <span class="choice-points">-5 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Open stable gateways instantly, even under duress. Critical for retreat or rapid deployment.
                             </div>
-</div>
-<div class="choice" data-points="-4" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🛡️ Inviolable Ward</span>
-<span class="choice-points">-4 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-4" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🛡️ Inviolable Ward</span>
+                                <span class="choice-points">-4 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Creates a powerful defensive barrier that resists intrusion, attack, and scrying.
                             </div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🛑 Chain Shield</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-3" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🛑 Chain Shield</span>
+                                <span class="choice-points">-3 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Shield multiple channelers at once. Excellent for crowd control, less effective on elites.
                             </div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🌩️ Stormcall</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-3" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🌩️ Stormcall</span>
+                                <span class="choice-points">-3 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Summon a thunderstorm across 1–2 miles. Dangerous to both enemies and terrain.
                             </div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🕵️ True Mask of Mirrors</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-2" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🕵️ True Mask of Mirrors</span>
+                                <span class="choice-points">-2 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Advanced illusions — scent, voice, touch. Highly convincing to most observers.
                             </div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🌠 Worldwalker</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-3" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🌠 Worldwalker</span>
+                                <span class="choice-points">-3 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Move between Tel’aran’rhiod and the waking world. Extremely rare and dangerous.
                             </div>
-</div>
-<div class="choice" data-points="-6" onclick="selectChoice(this, 'spell')">
-<div class="choice-header">
-<span class="choice-title">🛠️ Ter’angreal Crafter</span>
-<span class="choice-points">-6 points</span>
-</div>
-<div class="choice-description">
+                        </div>
+                        <div class="choice" data-points="-6" onclick="selectChoice(this, 'spell')">
+                            <div class="choice-header">
+                                <span class="choice-title">🛠️ Ter’angreal Crafter</span>
+                                <span class="choice-points">-6 points</span>
+                            </div>
+                            <div class="choice-description">
                                 Construct basic ter’angreal. Takes time and resources, but unlocks custom magical tools.
                             </div>
-</div>
-</div>
-</div>
-</div><div class="tab-content" id="tab6" style="display:none;"><div class="section yellow-section">
-<div class="section-header">
-<span class="section-icon">5️⃣</span>
-<h2 class="section-title">Unique Items and Special Abilities</h2>
-</div>
-<div class="section-description">
+                        </div>
+                    </div>
+                </div>
+            </div><div class="tab-content" id="tab6" style="display:none;"><div class="section yellow-section">
+            <div class="section-header">
+                <span class="section-icon">5️⃣</span>
+                <h2 class="section-title">Unique Items and Special Abilities</h2>
+            </div>
+            <div class="section-description">
                 The Third Age is a time of relics — many lost, some rediscovered.
                 You have access to rare ter'angreal and unique abilities. Choose wisely.
             </div>
-<h3 style="margin-top: 20px; margin-bottom: 10px; color: var(--secondary-color);">📦 Personal Ter'angreal</h3>
-<p class="section-description">Choose from the list below:</p>
-<div class="choice-container">
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'terangreal1')">
-<div class="choice-header">
-<span class="choice-title">Guardian Ring</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
-<p>Creates a passive defensive aura against physical projectiles and basic channeling attacks.</p>
-<p>(Lasts several hours once activated.)</p>
-</div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'terangreal2')">
-<div class="choice-header">
-<span class="choice-title">Skimming Stone</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
-<p>A ter'angreal that enhances Skimming — allowing you to create fast-moving platforms without needing full gateways.</p>
-</div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'terangreal3')">
-<div class="choice-header">
-<span class="choice-title">Sifter Lens</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
-<p>Reveals hidden weaves, wards, or disguised objects nearby.</p>
-<p>(Effective against illusions, maskings, and dream influences.)</p>
-</div>
-</div>
-<div class="choice" data-points="-6" onclick="selectChoice(this, 'terangreal4')">
-<div class="choice-header">
-<span class="choice-title">Pocket Haven</span>
-<span class="choice-points">-6 points</span>
-</div>
-<div class="choice-description">
-<p>Opens a small, stable shelter in the World of Dreams or nearby "frozen" time bubbles.</p>
-<p>(Allows 6 hours of protected rest; extremely rare and prized.)</p>
-</div>
-</div>
-<div class="choice" data-points="-5" onclick="selectChoice(this, 'terangreal5')">
-<div class="choice-header">
-<span class="choice-title">Luck Charm</span>
-<span class="choice-points">-5 points</span>
-</div>
-<div class="choice-description">
-<p>A token that subtly shifts probability in your favor during high-stakes weaves (combat, Healing, duels).</p>
-<p>(Not absolute, but adds a strong edge.)</p>
-</div>
-</div>
-</div>
-<h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--secondary-color);">🛠️ Special Abilities</h3>
-<p class="section-description">(Standalone powers that can also be purchased.)</p>
-<div class="choice-container">
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'ability1')">
-<div class="choice-header">
-<span class="choice-title">Waygate Mastery</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
-<p>You can sense, manipulate, and even open/create hidden exits into and out of the Ways.</p>
-</div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'ability2')">
-<div class="choice-header">
-<span class="choice-title">Fae-Luck Curse</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
-<p>Like Matrim Cauthon, you are strangely lucky in danger — but misfortune stalks your victories.</p>
-<p>(Gain random boons, but sometimes attract unforeseen enemies.)</p>
-</div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'ability3')">
-<div class="choice-header">
-<span class="choice-title">Memory Fragment</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
-<p>You possess flashes of forgotten Age knowledge: ancient languages, sword forms, lost weaves.</p>
-</div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'ability4')">
-<div class="choice-header">
-<span class="choice-title">Living Ward</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
-<p>Passive minor resistance to true power taint, nightmares, dreamspike effects, and mental intrusion.</p>
-</div>
-</div>
-<div class="choice" data-points="-5" onclick="selectChoice(this, 'ability5')">
-<div class="choice-header">
-<span class="choice-title">Prophetic Dreamer</span>
-<span class="choice-points">-5 points</span>
-</div>
-<div class="choice-description">
-<p>Occasionally receive highly accurate visions of future possibilities — but interpreting them is tricky.</p>
-</div>
-</div>
-</div>
-<div class="note">
-<p><em>Ter'angreal are physical items. Special abilities are innate talents granted by the Pattern — or by past lives.</em></p>
-</div>
-</div></div>
-<div class="tab-content" id="tab7" style="display:none;"><div class="section green-section">
-<div class="section-header">
-<span class="section-icon">6️⃣</span>
-<h2 class="section-title">Warders and Bonds</h2>
-</div>
-<div class="section-description">
+            <h3 style="margin-top: 20px; margin-bottom: 10px; color: var(--secondary-color);">📦 Personal Ter'angreal</h3>
+            <p class="section-description">Choose from the list below:</p>
+            <div class="choice-container">
+                <div class="choice" data-points="-3" onclick="selectChoice(this, 'terangreal1')">
+                    <div class="choice-header">
+                        <span class="choice-title">Guardian Ring</span>
+                        <span class="choice-points">-3 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>Creates a passive defensive aura against physical projectiles and basic channeling attacks.</p>
+                        <p>(Lasts several hours once activated.)</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-3" onclick="selectChoice(this, 'terangreal2')">
+                    <div class="choice-header">
+                        <span class="choice-title">Skimming Stone</span>
+                        <span class="choice-points">-3 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>A ter'angreal that enhances Skimming — allowing you to create fast-moving platforms without needing full gateways.</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-2" onclick="selectChoice(this, 'terangreal3')">
+                    <div class="choice-header">
+                        <span class="choice-title">Sifter Lens</span>
+                        <span class="choice-points">-2 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>Reveals hidden weaves, wards, or disguised objects nearby.</p>
+                        <p>(Effective against illusions, maskings, and dream influences.)</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-6" onclick="selectChoice(this, 'terangreal4')">
+                    <div class="choice-header">
+                        <span class="choice-title">Pocket Haven</span>
+                        <span class="choice-points">-6 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>Opens a small, stable shelter in the World of Dreams or nearby "frozen" time bubbles.</p>
+                        <p>(Allows 6 hours of protected rest; extremely rare and prized.)</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-5" onclick="selectChoice(this, 'terangreal5')">
+                    <div class="choice-header">
+                        <span class="choice-title">Luck Charm</span>
+                        <span class="choice-points">-5 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>A token that subtly shifts probability in your favor during high-stakes weaves (combat, Healing, duels).</p>
+                        <p>(Not absolute, but adds a strong edge.)</p>
+                    </div>
+                </div>
+            </div>
+            <h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--secondary-color);">🛠️ Special Abilities</h3>
+            <p class="section-description">(Standalone powers that can also be purchased.)</p>
+            <div class="choice-container">
+                <div class="choice" data-points="-3" onclick="selectChoice(this, 'ability1')">
+                    <div class="choice-header">
+                        <span class="choice-title">Waygate Mastery</span>
+                        <span class="choice-points">-3 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>You can sense, manipulate, and even open/create hidden exits into and out of the Ways.</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-3" onclick="selectChoice(this, 'ability2')">
+                    <div class="choice-header">
+                        <span class="choice-title">Fae-Luck Curse</span>
+                        <span class="choice-points">-3 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>Like Matrim Cauthon, you are strangely lucky in danger — but misfortune stalks your victories.</p>
+                        <p>(Gain random boons, but sometimes attract unforeseen enemies.)</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-2" onclick="selectChoice(this, 'ability3')">
+                    <div class="choice-header">
+                        <span class="choice-title">Memory Fragment</span>
+                        <span class="choice-points">-2 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>You possess flashes of forgotten Age knowledge: ancient languages, sword forms, lost weaves.</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-3" onclick="selectChoice(this, 'ability4')">
+                    <div class="choice-header">
+                        <span class="choice-title">Living Ward</span>
+                        <span class="choice-points">-3 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>Passive minor resistance to true power taint, nightmares, dreamspike effects, and mental intrusion.</p>
+                    </div>
+                </div>
+                <div class="choice" data-points="-5" onclick="selectChoice(this, 'ability5')">
+                    <div class="choice-header">
+                        <span class="choice-title">Prophetic Dreamer</span>
+                        <span class="choice-points">-5 points</span>
+                    </div>
+                    <div class="choice-description">
+                        <p>Occasionally receive highly accurate visions of future possibilities — but interpreting them is tricky.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="note">
+                <p><em>Ter'angreal are physical items. Special abilities are innate talents granted by the Pattern — or by past lives.</em></p>
+            </div>
+        </div></div>
+        <div class="tab-content" id="tab7" style="display:none;"><div class="section green-section">
+            <div class="section-header">
+                <span class="section-icon">6️⃣</span>
+                <h2 class="section-title">Warders and Bonds</h2>
+            </div>
+            <div class="section-description">
                 Bond a fierce protector, loyal companion, and extension of your will. Warders can be male or female.
             </div>
-<h3 style="margin-top: 20px; margin-bottom: 10px; color: var(--secondary-color);">🤺 Named Warders</h3>
-<div class="choice-container">
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Lan Mandragoran</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
+            <h3 style="margin-top: 20px; margin-bottom: 10px; color: var(--secondary-color);">🤺 Named Warders</h3>
+            <div class="choice-container">
+                <div class="choice" data-points="-2" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Lan Mandragoran</span>
+                        <span class="choice-points">-2 points</span>
+                    </div>
+                    <div class="choice-description">
                         Legendary Blademaster. Unbreakable honor, unmatched survival and sword skill.
                     </div>
-</div>
-<div class="choice" data-points="-1" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Tomas</span>
-<span class="choice-points">-1 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-1" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Tomas</span>
+                        <span class="choice-points">-1 points</span>
+                    </div>
+                    <div class="choice-description">
                         Cautious veteran and woodsman. Loyal, subtle, and wise.
                     </div>
-</div>
-<div class="choice" data-points="-4" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Jahar Narishma</span>
-<span class="choice-points">-4 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-4" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Jahar Narishma</span>
+                        <span class="choice-points">-4 points</span>
+                    </div>
+                    <div class="choice-description">
                         Asha'man with talent in Fire and Spirit. Young, bold, unpredictable.
                     </div>
-</div>
-<div class="choice" data-points="-1" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Hurin</span>
-<span class="choice-points">-1 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-3" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Amys</span>
+                        <span class="choice-points">-3 points</span>
+                    </div>
+                    <div class="choice-description">
+                        A powerful Wise One and Dreamwalker.
+                    </div>
+                </div>
+                <div class="choice" data-points="-1" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Hurin</span>
+                        <span class="choice-points">-1 points</span>
+                    </div>
+                    <div class="choice-description">
                         "Sniffer" tracker. Detects violence, excellent scout, quiet companion.
                     </div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Birgitte Silverbow</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-2" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Birgitte Silverbow</span>
+                        <span class="choice-points">-2 points</span>
+                    </div>
+                    <div class="choice-description">
                         Hero of the Horn. Archer, gambler, and fearless warrior with deep lore knowledge.
                     </div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Faile Bashere</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-2" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Faile Bashere</span>
+                        <span class="choice-points">-2 points</span>
+                    </div>
+                    <div class="choice-description">
                         Saldaean noble and guerrilla tactician. Loyal, fierce, and politically adept.
                     </div>
-</div>
-<div class="choice" data-points="-1" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Chiad</span>
-<span class="choice-points">-1 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-1" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Chiad</span>
+                        <span class="choice-points">-1 points</span>
+                    </div>
+                    <div class="choice-description">
                         Aiel spear-maiden. Stealthy, agile, and deadly in close quarters.
                     </div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'wardermulti')">
-<div class="choice-header">
-<span class="choice-title">Custom Warder</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-2" onclick="selectChoice(this, 'wardermulti')">
+                    <div class="choice-header">
+                        <span class="choice-title">Custom Warder</span>
+                        <span class="choice-points">-2 points</span>
+                    </div>
+                    <div class="choice-description">
                         Design your own: Aiel Wise One, Kin guardian, Sea Folk warrior, Blademaster exile, etc.
                     </div>
-</div>
-</div>
-<h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--secondary-color);">🔗 Bond Enhancements</h3>
-<div class="choice-container">
-<div class="choice" data-points="-1" onclick="selectChoice(this, 'bondboost')">
-<div class="choice-header">
-<span class="choice-title">Bondmate Boost</span>
-<span class="choice-points">-1 points</span>
-</div>
-<div class="choice-description">
+                </div>
+            </div>
+            <h3 style="margin-top: 30px; margin-bottom: 10px; color: var(--secondary-color);">🔗 Bond Enhancements</h3>
+            <div class="choice-container">
+                <div class="choice" data-points="-1" onclick="selectChoice(this, 'bondboost')">
+                    <div class="choice-header">
+                        <span class="choice-title">Bondmate Boost</span>
+                        <span class="choice-points">-1 points</span>
+                    </div>
+                    <div class="choice-description">
                         Improves emotional stability, resists Compulsion, and eases Traveling together.
                     </div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'bondcast')">
-<div class="choice-header">
-<span class="choice-title">Shared Senses and Spellcasting</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="-2" onclick="selectChoice(this, 'bondcast')">
+                    <div class="choice-header">
+                        <span class="choice-title">Shared Senses and Spellcasting</span>
+                        <span class="choice-points">-2 points</span>
+                    </div>
+                    <div class="choice-description">
                         See and hear through your Warder. Cast minor weaves through them at close or bonded range.
                     </div>
-</div>
-</div>
-</div></div>
-<div class="tab-content" id="tab8" style="display:none;"><div class="section black-section">
-<div class="section-header">
-<span class="section-icon">7️⃣</span>
-<h2 class="section-title">Oaths</h2>
-</div>
-<div class="section-description">
+                </div>
+            </div>
+        </div></div>
+        <div class="tab-content" id="tab8" style="display:none;"><div class="section black-section">
+            <div class="section-header">
+                <span class="section-icon">7️⃣</span>
+                <h2 class="section-title">Oaths</h2>
+            </div>
+            <div class="section-description">
                 Oaths grant spiritual weight, protection, or power. Choose up to two.
             </div>
-<div class="choice-container">
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'oath1')">
-<div class="choice-header">
-<span class="choice-title">🛡️ Oath of Truth</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
+            <div class="choice-container">
+                <div class="choice" data-points="2" onclick="selectChoice(this, 'oath1')">
+                    <div class="choice-header">
+                        <span class="choice-title">🛡️ Oath of Truth</span>
+                        <span class="choice-points">+2 points</span>
+                    </div>
+                    <div class="choice-description">
                         Cannot speak deliberate lies. Gain trust bonus in political and lawful circles.
                     </div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'oath2')">
-<div class="choice-header">
-<span class="choice-title">🕊️ Oath Against Violence</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
-                        Cannot kill except in immediate defense. Reduces taint exposure; earns moral favor.
+                </div>
+                <div class="choice" data-points="2" onclick="selectChoice(this, 'oath2')">
+                    <div class="choice-header">
+                        <span class="choice-title">🕊️ Oath Against Violence</span>
+                        <span class="choice-points">+2 points</span>
                     </div>
-</div>
-<div class="choice" data-points="-2" onclick="selectChoice(this, 'oath3')">
-<div class="choice-header">
-<span class="choice-title">⚖️ Oath of Service</span>
-<span class="choice-points">-2 points</span>
-</div>
-<div class="choice-description">
+                    <div class="choice-description">
+                        Cannot kill except in immediate defense.
+                    </div>
+                </div>
+                <div class="choice" data-points="3" onclick="selectChoice(this, 'oath3')">
+                    <div class="choice-header">
+                        <span class="choice-title">⚖️ Oath of Service</span>
+                        <span class="choice-points">+3 points</span>
+                    </div>
+                    <div class="choice-description">
                         Bound to serve a nation, Tower, or group. Gain protection, access, and support.
                     </div>
-</div>
-<div class="choice" data-points="-3" onclick="selectChoice(this, 'oath4')">
-<div class="choice-header">
-<span class="choice-title">✒️ Unique Personal Oath</span>
-<span class="choice-points">-3 points</span>
-</div>
-<div class="choice-description">
-                        Create your own rule (e.g., never use Balefire). Gain minor narrative immunity when oath applies.
+                </div>
+                <div class="choice" data-points="3" onclick="selectChoice(this, 'oath4')">
+                    <div class="choice-header">
+                        <span class="choice-title">✒️ Unique Personal Oath</span>
+                        <span class="choice-points">+3 points</span>
                     </div>
-</div>
-</div>
-</div></div>
-<div class="tab-content" id="tab9" style="display:none;"><div class="section gray-section">
-<div class="section-header">
-<span class="section-icon">8️⃣</span>
-<h2 class="section-title">Personal Goals</h2>
-</div>
-<div class="section-description">
+                    <div class="choice-description">
+                        Create your own rule (e.g., never use Balefire). It should be as hard as the other choices.
+                    </div>
+                </div>
+            </div>
+        </div></div>
+        <div class="tab-content" id="tab9" style="display:none;"><div class="section gray-section">
+            <div class="section-header">
+                <span class="section-icon">8️⃣</span>
+                <h2 class="section-title">Personal Goals</h2>
+            </div>
+            <div class="section-description">
                 Your ambitions guide your story. Choose one personal goal to define your journey — or none, and let the Pattern decide.
             </div>
-<div class="choice-container">
-<div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
-<div class="choice-header">
-<span class="choice-title">🏰 Found a School</span>
-<span class="choice-points">0 points</span>
-</div>
-<div class="choice-description">
+            <div class="choice-container">
+                <div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
+                    <div class="choice-header">
+                        <span class="choice-title">🏰 Found a School</span>
+                        <span class="choice-points">0 points</span>
+                    </div>
+                    <div class="choice-description">
                         Build a new sanctuary for rogue channelers, a unique magical philosophy, or a rebel splinter of Tower tradition.
                     </div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
-<div class="choice-header">
-<span class="choice-title">🛡️ Protect a People</span>
-<span class="choice-points">0 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
+                    <div class="choice-header">
+                        <span class="choice-title">🛡️ Protect a People</span>
+                        <span class="choice-points">0 points</span>
+                    </div>
+                    <div class="choice-description">
                         Serve and defend a nation, village, or group — be it the Borderlands, Sea Folk, or Aiel.
                     </div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
-<div class="choice-header">
-<span class="choice-title">⚔️ Master the One Power</span>
-<span class="choice-points">0 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
+                    <div class="choice-header">
+                        <span class="choice-title">⚔️ Master the One Power</span>
+                        <span class="choice-points">0 points</span>
+                    </div>
+                    <div class="choice-description">
                         Dedicate yourself to magical supremacy. Seek lost weaves, forbidden strength, and mastery of all threads.
                     </div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
-<div class="choice-header">
-<span class="choice-title">🌌 Wander the Pattern</span>
-<span class="choice-points">0 points</span>
-</div>
-<div class="choice-description">
+                </div>
+                <div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
+                    <div class="choice-header">
+                        <span class="choice-title">🌌 Wander the Pattern</span>
+                        <span class="choice-points">0 points</span>
+                    </div>
+                    <div class="choice-description">
                         Forsake permanence. Walk the dreamworlds, the Ways, and forgotten roads of the Pattern as a living myth.
                     </div>
-</div>
-<div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
-<div class="choice-header">
-<span class="choice-title">🗡️ Hunt the Forsaken</span>
-<span class="choice-points">0 points</span>
-</div>
-<div class="choice-description">
-                        Declare war on the Chosen of the Shadow. A dangerous goal — but one the Pattern may reward.
+                </div>
+                <div class="choice" data-points="0" onclick="selectChoice(this, 'goal')">
+                    <div class="choice-header">
+                        <span class="choice-title">🗡️ Hunt the Forsaken</span>
+                        <span class="choice-points">0 points</span>
                     </div>
-</div>
-</div>
-</div></div>
-<div class="tab-content" id="tab10" style="display:none;"><div class="section brown-section">
-<div class="section-header">
-<span class="section-icon">🔚</span>
-<h2 class="section-title">Outro: The Pattern Awaits</h2>
-</div>
-<div class="section-description">
+                    <div class="choice-description">
+                        Declare war on the Chosen of the Shadow. A dangerous goal, but one the Pattern may reward.
+                    </div>
+                </div>
+            </div>
+        </div></div>
+        <div class="tab-content" id="tab10" style="display:none;"><div class="section brown-section">
+            <div class="section-header">
+                <span class="section-icon">🔚</span>
+                <h2 class="section-title">Outro: The Pattern Awaits</h2>
+            </div>
+            <div style="margin-top: 20px;">
+                <button onclick="generateSummary()" style="padding:10px 20px; background-color: var(--secondary-color); color: black; border-radius: 12px; font-weight: bold; cursor: pointer;">📜 Generate Your Summary</button>
+            </div>
+            <div id="summary-output" style="margin-top: 30px; background-color: var(--dark-choice); padding: 20px; border-radius: var(--border-radius); box-shadow: var(--box-shadow);">
+                <h3 style="margin-bottom: 10px; color: var(--secondary-color);">Your Journey:</h3>
+                <div id="summary-content">
+                    <!-- Summary will be generated here -->
+                </div>
+            </div>
+            <div class="section-description">
                 The Pattern weaves your fate — but your hand holds the shuttle.
             </div>
-<div class="section-content">
-<p><em>The Wheel weaves as the Wheel wills — yet your choices echo louder than most.</em></p>
-<p><em>You stand at the turning of an Age. Heroes rise. Darkness gathers. The world trembles under prophecy, war, and power.</em></p>
-<p><em>Will you forge a sanctuary? Command armies? Walk between dreams? Or disappear, legendless, into the fog of time?</em></p>
-<p><strong>The Pattern stirs. You are the thread. Now — weave.</strong></p>
-</div>
-</div></div>
-</div>
-<script>
+            <div class="section-content">
+                <p><em>The Wheel weaves as the Wheel wills — yet your choices echo louder than most.</em></p>
+                <p><em>You stand at the turning of an Age. Heroes rise. Darkness gathers. The world trembles under prophecy, war, and power.</em></p>
+                <p><em>Will you forge a sanctuary? Command armies? Walk between dreams? Or disappear, legendless, into the fog of time?</em></p>
+                <p><strong>The Pattern stirs.</strong></p>
+            </div>
+        </div></div>
+    </div>
+    <script>
     let totalPoints = 0;
     const pointsDisplay = document.getElementById('points-display');
     const selections = {};
@@ -1225,13 +1224,6 @@
     totalPoints += points;
     }
     pointsDisplay.textContent = totalPoints;
-    }
-    function showTab(tabId) {
-    var tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(function(tab) {
-    tab.style.display = 'none';
-    });
-    document.getElementById(tabId).style.display = 'block';
     }
     function showTab(tabId) {
     const tabs = document.querySelectorAll('.tab-content');
@@ -1286,10 +1278,235 @@
     totalPoints -= 2;
     }
     }
-    
     // Update points display
     pointsDisplay.textContent = totalPoints;
     }
+
+// Improved generateSummary function
+function generateSummary() {
+    // Make sure we have the summary content element
+    const summaryContent = document.getElementById('summary-content');
+    if (!summaryContent) {
+        console.error('Summary content element not found!');
+        return;
+    }
+    
+    // Object to organize selections by category
+    const summary = {
+        "Difficulty / Role": [],
+        "Starting Place": [],
+        "Training": [],
+        "Affinities": [],
+        "Special Spells": [],
+        "Unique Items and Abilities": [],
+        "Warders": [],
+        "Oaths": [],
+        "Personal Goal": []
+    };
+    
+    // Find all selected choices across the document
+    const selectedChoices = document.querySelectorAll('.choice.selected');
+    console.log(`Found ${selectedChoices.length} selected choices`);
+    
+    // Loop through each selected choice
+    selectedChoices.forEach(choice => {
+        // Get the choice title
+        const titleElement = choice.querySelector('.choice-title');
+        const title = titleElement ? titleElement.innerText : 'Unknown Selection';
+        
+        // Get the onclick attribute to determine the category
+        const onclickAttr = choice.getAttribute('onclick') || '';
+        
+        // Determine which category this choice belongs to
+        if (onclickAttr.includes('role')) {
+            summary["Difficulty / Role"].push(title);
+        } 
+        else if (onclickAttr.includes('place')) {
+            summary["Starting Place"].push(title);
+        }
+        else if (onclickAttr.includes('training')) {
+            summary["Training"].push(title);
+        } 
+        else if (onclickAttr.includes('affinity')) {
+            summary["Affinities"].push(title);
+        } 
+        else if (onclickAttr.includes('spell')) {
+            summary["Special Spells"].push(title);
+        } 
+        else if (onclickAttr.includes('terangreal') || onclickAttr.includes('ability')) {
+            summary["Unique Items and Abilities"].push(title);
+        } 
+        else if (onclickAttr.includes('warder')) {
+            summary["Warders"].push(title);
+        } 
+        else if (onclickAttr.includes('oath')) {
+            summary["Oaths"].push(title);
+        } 
+        else if (onclickAttr.includes('goal')) {
+            summary["Personal Goal"].push(title);
+        }
+    });
+    
+    // Clear the existing content
+    summaryContent.innerHTML = '';
+    
+    // Create a title for the summary
+    const summaryTitle = document.createElement('h3');
+    summaryTitle.textContent = 'Your Wheel of Time Character';
+    summaryTitle.style.textAlign = 'center';
+    summaryTitle.style.marginBottom = '15px';
+    summaryContent.appendChild(summaryTitle);
+    
+    // Add remaining points information
+    const pointsInfo = document.createElement('p');
+    pointsInfo.style.textAlign = 'center';
+    pointsInfo.style.marginBottom = '20px';
+    
+    if (totalPoints > 0) {
+        pointsInfo.innerHTML = `<strong>Warning:</strong> You still have ${totalPoints} points unspent!`;
+        pointsInfo.style.color = "#b8860b"; // Yellow Ajah color
+    } else if (totalPoints < 0) {
+        pointsInfo.innerHTML = `<strong>Warning:</strong> You are ${Math.abs(totalPoints)} points over budget!`;
+        pointsInfo.style.color = "#8b0000"; // Red Ajah color
+    } else {
+        pointsInfo.innerHTML = "<strong>Perfect balance:</strong> All points spent!";
+        pointsInfo.style.color = "#1a6638"; // Green Ajah color
+    }
+    summaryContent.appendChild(pointsInfo);
+    
+    // Loop through each category and create a section for it if it has selections
+    let emptySections = true;
+    for (const category in summary) {
+        if (summary[category].length > 0) {
+            emptySections = false;
+            
+            // Create section header
+            const sectionHeader = document.createElement('h4');
+            sectionHeader.textContent = category;
+            sectionHeader.style.borderBottom = '1px solid #d4af37';
+            sectionHeader.style.paddingBottom = '5px';
+            sectionHeader.style.marginTop = '15px';
+            summaryContent.appendChild(sectionHeader);
+            
+            // Create list of selections
+            const list = document.createElement('ul');
+            list.style.marginLeft = '20px';
+            
+            summary[category].forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+            
+            summaryContent.appendChild(list);
+        }
+    }
+    
+    // If no selections were made
+    if (emptySections) {
+        const noSelections = document.createElement('p');
+        noSelections.textContent = 'You have not made any selections yet!';
+        noSelections.style.textAlign = 'center';
+        noSelections.style.fontStyle = 'italic';
+        noSelections.style.marginTop = '20px';
+        summaryContent.appendChild(noSelections);
+    } else {
+        // Add copy to clipboard button
+        const copyButton = document.createElement('button');
+        copyButton.textContent = 'Copy to Clipboard';
+        copyButton.style.display = 'block';
+        copyButton.style.margin = '20px auto';
+        copyButton.style.padding = '8px 16px';
+        copyButton.style.backgroundColor = '#d4af37';
+        copyButton.style.color = '#000';
+        copyButton.style.border = 'none';
+        copyButton.style.borderRadius = '4px';
+        copyButton.style.cursor = 'pointer';
+        
+        copyButton.addEventListener('click', function() {
+            let copyText = 'MY WHEEL OF TIME CHARACTER\n\n';
+            
+            for (const category in summary) {
+                if (summary[category].length > 0) {
+                    copyText += `${category.toUpperCase()}:\n`;
+                    summary[category].forEach(item => {
+                        copyText += `- ${item}\n`;
+                    });
+                    copyText += '\n';
+                }
+            }
+            
+            // Create a temporary textarea to copy the text
+            const textarea = document.createElement('textarea');
+            textarea.value = copyText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // Visual feedback
+            this.textContent = 'Copied!';
+            setTimeout(() => {
+                this.textContent = 'Copy to Clipboard';
+            }, 2000);
+        });
+        
+        summaryContent.appendChild(copyButton);
+    }
+    
+    // Make sure the summary tab is visible
+    document.getElementById('tab10').style.display = 'block';
+    
+    // Log for debugging
+    console.log('Summary generated:', summary);
+}
+
+// Add this function to your HTML with an onClick handler for the summary button
+// For example: <button onclick="generateSummary()">Generate Summary</button>
+
+    // function generateSummary() {
+    // const summary = {
+    // "Difficulty / Role": [],
+    // "Starting Place": [],
+    // "Training": [],
+    // "Affinities": [],
+    // "Special Spells": [],
+    // "Unique Items and Abilities": [],
+    // "Warders": [],
+    // "Oaths": [],
+    // "Personal Goal": []
+    // };
+    // const selected = document.querySelectorAll('.choice.selected');
+    // selected.forEach(choice => {
+    // const onclickValue = choice.getAttribute('onclick') || "";
+    // const title = choice.querySelector('.choice-title')?.innerText || 'Unknown';
+    // if (onclickValue.includes('role')) summary["Difficulty / Role"].push(title);
+    // else if (onclickValue.includes('place')) summary["Starting Place"].push(title);
+    // else if (onclickValue.includes('training')) summary["Training"].push(title);
+    // else if (onclickValue.includes('affinity')) summary["Affinities"].push(title);
+    // else if (onclickValue.includes('spell') || onclickValue.includes('spellmulti')) summary["Special Spells"].push(title);
+    // else if (onclickValue.includes('terangreal') || onclickValue.includes('ability')) summary["Unique Items and Abilities"].push(title);
+    // else if (onclickValue.includes('wardermulti')) summary["Warders"].push(title);
+    // else if (onclickValue.includes('oath')) summary["Oaths"].push(title);
+    // else if (onclickValue.includes('goal')) summary["Personal Goal"].push(title);
+    // });
+    // const output = document.getElementById('summary-content');
+    // output.innerHTML = ""; // Clear previous content
+    // for (const section in summary) {
+    // if (summary[section].length > 0) {
+    // const sectionTitle = document.createElement('h4');
+    // sectionTitle.textContent = section;
+    // output.appendChild(sectionTitle);
+    // const list = document.createElement('ul');
+    // summary[section].forEach(item => {
+    // const li = document.createElement('li');
+    // li.textContent = item;
+    // list.appendChild(li);
+    // });
+    // output.appendChild(list);
+    // }
+    // }
+    // }
     </script>
 </body>
 </html>
